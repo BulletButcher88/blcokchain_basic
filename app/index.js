@@ -19,6 +19,9 @@ app.get('/blocks', (req, res) => {
 
 app.post('/mine', (req, res) => {
   const block = bc.addBlock(req.body.data)
+
+  p2pServer.syncChain();
+
   res.redirect('/blocks')
 });
 
