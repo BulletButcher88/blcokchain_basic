@@ -5,7 +5,22 @@ class Transaction {
   constructor() {
     this.id = ChainUntil.id();
     this.input = null;
-    this.output = [];
+    this.outputs = [];
+  }
+
+  update(senderWallet, recipient, amount) {
+    const senderOutput = this.outputs.find(output => output.address === senderWallet.publicKey)
+
+    if (amount > senderOutput.amount) {
+      console.log(`Amount: ${amount} exceeds the balance`)
+      return
+    }
+
+    senderOutput.amount = senderOutput.amount - amount;
+    this.outputs.push({ amount, address: recipient })
+    Transaction.signTransaction(this, senderWallet)
+
+    return this;
   }
 
   static newTransaction(senderWallet, recipient, amount) {
@@ -13,10 +28,34 @@ class Transaction {
 
     if (amount > senderWallet.balance) {
       console.log(`Amount : ${amount} exceeds the current balance`)
+      return;
+    }
+    transaction.outputs.push(...[
+      { amount: senderWallet.balance - amount, address: senderWallet.publicKey },
+      { amount, address: recipient }
+    ])
+    Transaction.signTransaction(transaction, senderWallet)
+
+    return transaction;
+  }
+
+  static signTransaction(transaction, senderWallet) {
+    transaction.input = {
+      timestamp: Date.now(),
+      amount: senderWallet.balance,
+      address: senderWallet.publicKey,
+      signature: senderWallet.sign(ChainUntil.hash(transaction.outputs))
     }
   }
 
+  static verifyTransaction(transaction) {
+    return ChainUntil.verifySignature(
+      transaction.input.address,
+      transaction.input.signature,
+      ChainUntil.hash(transaction.outputs)
+    )
+  }
 }
 
 
-module.export = Transaction;
+module.exports = Transaction;
