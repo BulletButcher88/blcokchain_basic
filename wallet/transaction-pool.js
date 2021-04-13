@@ -3,8 +3,6 @@ class TransactionPoll {
     this.transactions = [];
   }
 
-
-
   updateOrAddTransaction(transaction) {
     let transactionWithId = this.transactions.find(t => t.id === transaction.id);
 
@@ -13,6 +11,10 @@ class TransactionPoll {
     } else {
       this.transactions.push(transaction);
     }
+  }
+
+  existingTransaction(address) {
+    return this.transactions.find(t => t.input.address === address)
   }
 }
 
