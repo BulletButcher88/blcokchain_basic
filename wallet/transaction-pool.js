@@ -1,4 +1,4 @@
-class TransactionPoll {
+class TransactionPool {
   constructor() {
     this.transactions = [];
   }
@@ -18,4 +18,4 @@ class TransactionPoll {
   }
 }
 
-module.exports = TransactionPoll;
+module.exports = TransactionPool;

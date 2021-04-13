@@ -1,4 +1,4 @@
-const TransactionPoll = require('./transaction-pool');
+const TransactionPool = require('./transaction-pool');
 const Transaction = require('./transaction');
 const Wallet = require('./index');
 
@@ -6,7 +6,7 @@ describe('TransactionPool', () => {
   let tp, transaction, wallet;
 
   beforeEach(() => {
-    tp = new TransactionPoll();
+    tp = new TransactionPool();
     wallet = new Wallet();
     transaction = Transaction.newTransaction(wallet, 'r4n-4ddr355', 30)
     tp.updateOrAddTransaction(transaction);
