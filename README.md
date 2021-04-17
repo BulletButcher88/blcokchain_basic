@@ -20,12 +20,24 @@ This blockchain:
 
 `npm run dev`
 
+- Open up Postman and GET `localhost:3001/public-key` for accounts public key.
+- To view all transaction GET `localhost:3001/transactions` 
 
-### To run a second server open up a second terminal and run:
+
+### Open second server open up a second terminal to make a transaction:
 
 `HTTP_PORT=3002 P2P_PORT=5002 PEERS=ws://localhost:5001 npm run dev`
 
+- Use the publicKey attained above to send an amount, POST `localhost:3001/transactions`. This POST object should have the public key as a recipient and an amount:
 
-### To run test
+`{
+    "recipient": "04e37ee0b8d3ced5883763fdd82b6d5231ce0c81a61e4de0d5a34b3ef2435ff0c61876e59e8307576e283b9aa48dcb94132973123ce9fb7d7750ebadd36d86bc74",
+    "amount": 50
+}`
+
+- To mine the block GET `localhost:3001/mine-transactions`, will run the function for the users to mine a block from the transaction pool and reward the wallet with an amount.
+
+
+### To run test files
 
 `npm run test`
